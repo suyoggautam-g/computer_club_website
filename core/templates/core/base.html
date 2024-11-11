@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer Club</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
 </head>
 <body>
     <header>
@@ -13,6 +15,10 @@
             <a href="/about/">About</a> |
             <a href="/events/">Events</a> |
             <a href="/join/">Join Us</a>
+            {% if user.is_authenticated %}
+    <a href="{% url 'my_rsvps' %}">My RSVPs</a> |
+{% endif %}
+
         </nav>
     </header>
     <main>

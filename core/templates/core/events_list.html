@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h2>Upcoming Events</h2>
+<ul>
+    {% for event in events %}
+        <li>
+            <h3>{{ event.title }}</h3>
+            <p>{{ event.description }}</p>
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            {% if user.is_authenticated %}
+                <form action="{% url 'rsvp_event' event.id %}" method="post">
+                    {% csrf_token %}
+                    {% if user in event.participants.all %}
+                        <button type="submit">Cancel RSVP</button>
+                    {% else %}
+                        <button type="submit">RSVP</button>
+                    {% endif %}
+                </form>
+            {% else %}
+                <p><a href="{% url 'login' %}">Log in</a> to RSVP.</p>
+            {% endif %}
+        </li>
+    {% empty %}
+        <p>No upcoming events at the moment.</p>
+    {% endfor %}
+</ul>
+{% endblock %}
